@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-50: #f2f7f4;
+  --color-brand-100: #e0eee4;
+  --color-brand-200: #c2ddd1;
+  --color-brand-300: #9bc5b6;
+  --color-brand-400: #71a996;
+  --color-brand-500: #518c7a;
+  --color-brand-600: #3f7062;
+  --color-brand-700: #345a50;
+  --color-brand-800: #2b4941;
+  --color-brand-900: #243d37;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 dark:bg-black dark:text-white antialiased selection:bg-brand-200 selection:text-brand-900;
+  }
+}
+
+.glass-panel {
+  @apply bg-white/70 dark:bg-zinc-900/40 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-xl shadow-slate-200/50 dark:shadow-none rounded-3xl;
+}
