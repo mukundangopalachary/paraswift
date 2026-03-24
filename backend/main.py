@@ -7,6 +7,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 from routers import users, policies, webhooks
 
 app = FastAPI(
@@ -14,6 +15,9 @@ app = FastAPI(
     description="API for the AI-Powered Parametric Insurance Platform",
     version="1.0.0"
 )
+
+# Instrument FastAPI for Prometheus
+Instrumentator().instrument(app).expose(app)
 
 # Configure CORS
 app.add_middleware(
