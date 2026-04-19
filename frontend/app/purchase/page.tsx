@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '../../lib/firebase';
 import ProtectedRoute from '../../components/ProtectedRoute';
+import { apiBaseUrl } from '@/lib/apiClient';
 import { CloudRain, Wind, AlertCircle, Sparkles, Check } from 'lucide-react';
 
 export default function PurchasePage() {
@@ -24,7 +25,7 @@ export default function PurchasePage() {
         const token = await auth.currentUser?.getIdToken();
         if (!token) return;
         
-        const res = await fetch("http://127.0.0.1:8000/api/v1/policies/quote", {
+        const res = await fetch(`${apiBaseUrl}/policies/quote`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -62,7 +63,7 @@ export default function PurchasePage() {
       const token = await auth.currentUser?.getIdToken();
       if (!token) return;
 
-      const res = await fetch("http://127.0.0.1:8000/api/v1/policies/purchase", {
+      const res = await fetch(`${apiBaseUrl}/policies/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +76,7 @@ export default function PurchasePage() {
       });
 
       if (res.ok) {
-        router.push("/dashboard");
+        router.push("/rider/home");
       } else {
         alert("Purchase failed. Please try again.");
       }
@@ -89,7 +90,7 @@ export default function PurchasePage() {
   return (
     <ProtectedRoute>
       <div className="w-full flex-1 flex items-center justify-center p-6 pt-32 md:p-12 md:pt-36 selection:bg-brand-200 relative min-h-screen">
-        <Link href="/dashboard" className="absolute top-24 md:top-32 left-6 md:left-12 p-3 rounded-full bg-white dark:bg-zinc-800 shadow-sm hover:shadow-md text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-all active:scale-95 border border-transparent dark:border-zinc-700">
+        <Link href="/rider/home" className="absolute top-24 md:top-32 left-6 md:left-12 p-3 rounded-full bg-white dark:bg-zinc-800 shadow-sm hover:shadow-md text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-all active:scale-95 border border-transparent dark:border-zinc-700">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
         </Link>
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-center">

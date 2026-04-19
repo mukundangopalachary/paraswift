@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
+import { apiBaseUrl } from '@/lib/apiClient';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
 export default function RegisterPage() {
@@ -49,7 +50,7 @@ export default function RegisterPage() {
         throw new Error("No authentication token found");
       }
 
-      const res = await fetch("http://127.0.0.1:8000/api/v1/users/onboard", {
+      const res = await fetch(`${apiBaseUrl}/users/onboard`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

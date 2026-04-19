@@ -1,3 +1,5 @@
 .env
 serviceAccountKey.json
+*firebase-adminsdk*.json
+carevista-*.json
 venv 

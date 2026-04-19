@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { apiBaseUrl } from "@/lib/apiClient";
 
 export default function RiderLogin() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function RiderLogin() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setChecking(false);
       if (user) {
-        router.push("/rider/dashboard");
+        router.push("/rider/home");
       }
     });
     return () => unsubscribe();
@@ -35,19 +36,19 @@ export default function RiderLogin() {
         // Check if user has been onboarded on the backend
         const token = await result.user.getIdToken();
         try {
-          const res = await fetch("http://127.0.0.1:8000/api/v1/users/me/dashboard", {
+          const res = await fetch(`${apiBaseUrl}/users/me/dashboard`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           if (res.ok) {
             // Existing user — go to dashboard
-            router.push("/rider/dashboard");
+            router.push("/rider/home");
           } else {
             // 404 or error — new user, needs onboarding
             router.push("/rider/register");
           }
         } catch {
           // Backend unreachable — default to dashboard
-          router.push("/rider/dashboard");
+          router.push("/rider/home");
         }
       }
     } catch (err) {

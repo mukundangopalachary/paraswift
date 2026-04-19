@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: ../../backend
+      dockerfile: ../infra/docker/backend.Dockerfile
+    container_name: paraswift-backend
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../../frontend
+      dockerfile: ../infra/docker/frontend.Dockerfile
+    container_name: paraswift-frontend
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+    restart: unless-stopped
